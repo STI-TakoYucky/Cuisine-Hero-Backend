@@ -19,6 +19,19 @@ router.get('/random', async (req, res) => {
   }
 });
 
+//get all tags
+router.get('/tags', async (req, res) => {
+  const url = 'https://dummyjson.com/recipes/tags'
+
+  try {
+    const response = await fetch(url, options)
+    const result = await response.json()
+    res.send(result)
+  } catch (error) {
+    console.log(error)
+  }
+})
+
 //search a recipe
 router.get('/search', async (req, res) => {
   const { q } = req.query;
@@ -46,6 +59,20 @@ router.get('/', async (req, res) => {
   }
 });
 
+//get recipes based on id
+router.get('/:id', async (req, res) => {
+  const { id } = req.params;
+  const url = `https://dummyjson.com/recipes/${id}`
+
+  try {
+    const response = await fetch(url, options);
+    const result = await response.json();
+    res.send(result)
+  } catch (error) {
+    console.error(error);
+  }
+})
+
 //get recipes with tags
 router.get('/:category/:value', async (req, res) => {
   const {category, value} = req.params
@@ -60,18 +87,5 @@ router.get('/:category/:value', async (req, res) => {
   }
 });
 
-//get recipes based on id
-router.get('/:id', async (req, res) => {
-  const { id } = req.params;
-  const url = `https://dummyjson.com/recipes/${id}`
-
-  try {
-    const response = await fetch(url, options);
-    const result = await response.json();
-    res.send(result)
-  } catch (error) {
-    console.error(error);
-  }
-})
 
 module.exports = router;
